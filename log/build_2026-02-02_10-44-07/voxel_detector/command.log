@@ -1,0 +1,4 @@
+Invoking command in '/ws/build/voxel_detector': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /ws/src/voxel_detector/voxel_detector -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX=/ws/install/voxel_detector
+Invoked command in '/ws/build/voxel_detector' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /ws/src/voxel_detector/voxel_detector -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX=/ws/install/voxel_detector
+Invoking command in '/ws/build/voxel_detector': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ws/build/voxel_detector -- -j5 -l5
+Invoked command in '/ws/build/voxel_detector' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ws/build/voxel_detector -- -j5 -l5

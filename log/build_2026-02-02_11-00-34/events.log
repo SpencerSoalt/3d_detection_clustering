@@ -1,0 +1,169 @@
+[0.000000] (-) TimerEvent: {}
+[0.000115] (voxel_detector) JobQueued: {'identifier': 'voxel_detector', 'dependencies': OrderedDict()}
+[0.000153] (voxel_detector) JobStarted: {'identifier': 'voxel_detector'}
+[0.004848] (voxel_detector) JobProgress: {'identifier': 'voxel_detector', 'progress': 'cmake'}
+[0.005510] (voxel_detector) JobProgress: {'identifier': 'voxel_detector', 'progress': 'build'}
+[0.006030] (voxel_detector) Command: {'cmd': ['/usr/bin/cmake', '--build', '/ws/build/voxel_detector', '--', '-j5', '-l5'], 'cwd': '/ws/build/voxel_detector', 'env': OrderedDict([('TMUX', '/tmp/tmux-0/default,36,0'), ('WS', '/ws'), ('HOSTNAME', 'ce0a955192b2'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/ws'), ('TERM_PROGRAM_VERSION', '3.2a'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'screen'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('TERM_PROGRAM', 'tmux'), ('ROS_DOMAIN_ID', '0'), ('AMENT_PREFIX_PATH', '/ws/install/voxel_detector:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('PWD', '/ws/build/voxel_detector'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('TMUX_PANE', '%1'), ('CMAKE_PREFIX_PATH', '/ws/install/voxel_detector:/opt/ros/humble')]), 'shell': False}
+[0.021191] (voxel_detector) StdoutLine: {'line': b'/usr/bin/cmake -S/ws/src/voxel_detector/voxel_detector -B/ws/build/voxel_detector --check-build-system CMakeFiles/Makefile.cmake 0\n'}
+[0.036102] (voxel_detector) StdoutLine: {'line': b'/usr/bin/cmake -E cmake_progress_start /ws/build/voxel_detector/CMakeFiles /ws/build/voxel_detector//CMakeFiles/progress.marks\n'}
+[0.044902] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/Makefile2 all\n'}
+[0.045585] (voxel_detector) StdoutLine: {'line': b"gmake[1]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.045678] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/voxel_detector_node.dir/build.make CMakeFiles/voxel_detector_node.dir/depend\n'}
+[0.045916] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/euclidean_detector_node.dir/build.make CMakeFiles/euclidean_detector_node.dir/depend\n'}
+[0.046075] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/dbscan_detector_node.dir/build.make CMakeFiles/dbscan_detector_node.dir/depend\n'}
+[0.050061] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.050148] (voxel_detector) StdoutLine: {'line': b'cd /ws/build/voxel_detector && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /ws/src/voxel_detector/voxel_detector /ws/src/voxel_detector/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector/CMakeFiles/voxel_detector_node.dir/DependInfo.cmake --color=\n'}
+[0.051119] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.051204] (voxel_detector) StdoutLine: {'line': b'cd /ws/build/voxel_detector && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /ws/src/voxel_detector/voxel_detector /ws/src/voxel_detector/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector/CMakeFiles/dbscan_detector_node.dir/DependInfo.cmake --color=\n'}
+[0.051647] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.051712] (voxel_detector) StdoutLine: {'line': b'cd /ws/build/voxel_detector && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /ws/src/voxel_detector/voxel_detector /ws/src/voxel_detector/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector/CMakeFiles/euclidean_detector_node.dir/DependInfo.cmake --color=\n'}
+[0.055638] (voxel_detector) StdoutLine: {'line': b'Dependencies file "CMakeFiles/dbscan_detector_node.dir/src/dbscan_detector_node.cpp.o.d" is newer than depends file "/ws/build/voxel_detector/CMakeFiles/dbscan_detector_node.dir/compiler_depend.internal".\n'}
+[0.055967] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Leaving directory '/ws/build/voxel_detector'\n"}
+[0.056203] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/voxel_detector_node.dir/build.make CMakeFiles/voxel_detector_node.dir/build\n'}
+[0.057025] (voxel_detector) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target dbscan_detector_node\x1b[0m\n'}
+[0.057547] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Leaving directory '/ws/build/voxel_detector'\n"}
+[0.057670] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/euclidean_detector_node.dir/build.make CMakeFiles/euclidean_detector_node.dir/build\n'}
+[0.062271] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Leaving directory '/ws/build/voxel_detector'\n"}
+[0.064522] (voxel_detector) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/dbscan_detector_node.dir/build.make CMakeFiles/dbscan_detector_node.dir/build\n'}
+[0.073951] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.074484] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.074559] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Entering directory '/ws/build/voxel_detector'\n"}
+[0.074589] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Nothing to be done for 'CMakeFiles/voxel_detector_node.dir/build'.\n"}
+[0.074619] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Nothing to be done for 'CMakeFiles/euclidean_detector_node.dir/build'.\n"}
+[0.074648] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Leaving directory '/ws/build/voxel_detector'\n"}
+[0.074676] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Leaving directory '/ws/build/voxel_detector'\n"}
+[0.078760] (voxel_detector) StdoutLine: {'line': b'[ 33%] Built target euclidean_detector_node\n'}
+[0.078983] (voxel_detector) StdoutLine: {'line': b'[ 66%] Built target voxel_detector_node\n'}
+[0.079119] (voxel_detector) StdoutLine: {'line': b'[ 83%] \x1b[32mBuilding CXX object CMakeFiles/dbscan_detector_node.dir/src/dbscan_detector_node.cpp.o\x1b[0m\n'}
+[0.079733] (voxel_detector) StdoutLine: {'line': b'/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_DATE_TIME_DYN_LINK -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_IOSTREAMS_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_SYSTEM_DYN_LINK -DDEFAULT_RMW_IMPLEMENTATION=rmw_fastrtps_cpp -DDISABLE_PCAP -DFASTCDR_DYN_LINK -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DRCUTILS_ENABLE_FAULT_INJECTION -Dkiss_fft_scalar=double -I/opt/ros/humble/include/pcl_conversions -I/opt/ros/humble/include/message_filters -isystem /usr/include/pcl-1.12 -isystem /usr/include/eigen3 -isystem /usr/include/ni -isystem /usr/include/openni2 -isystem /opt/ros/humble/include/rclcpp -isystem /opt/ros/humble/include/sensor_msgs -isystem /opt/ros/humble/include/visualization_msgs -isystem /opt/ros/humble/include/pcl_msgs -isystem /opt/ros/humble/include/std_msgs -isystem /opt/ros/humble/include/ament_index_cpp -isystem /opt/ros/humble/include/libstatistics_collector -isystem /opt/ros/humble/include/builtin_interfaces -isystem /opt/ros/humble/include/rosidl_runtime_c -isystem /opt/ros/humble/include/rcutils -isystem /opt/ros/humble/include/rosidl_typesupport_interface -isystem /opt/ros/humble/include/fastcdr -isystem /opt/ros/humble/include/rosidl_runtime_cpp -isystem /opt/ros/humble/include/rosidl_typesupport_fastrtps_cpp -isystem /opt/ros/humble/include/rmw -isystem /opt/ros/humble/include/rosidl_typesupport_fastrtps_c -isystem /opt/ros/humble/include/rosidl_typesupport_introspection_c -isystem /opt/ros/humble/include/rosidl_typesupport_introspection_cpp -isystem /opt/ros/humble/include/rcl -isystem /opt/ros/humble/include/rcl_interfaces -isystem /opt/ros/humble/include/rcl_logging_interface -isystem /opt/ros/humble/include/rcl_yaml_param_parser -isystem /opt/ros/humble/include/libyaml_vendor -isystem /opt/ros/humble/include/tracetools -isystem /opt/ros/humble/include/rcpputils -isystem /opt/ros/humble/include/statistics_msgs -isystem /opt/ros/humble/include/rosgraph_msgs -isystem /opt/ros/humble/include/rosidl_typesupport_cpp -isystem /opt/ros/humble/include/rosidl_typesupport_c -isystem /opt/ros/humble/include/geometry_msgs -isystem /usr/include/vtk-9.1 -isystem /usr/include/jsoncpp -isystem /usr/include/freetype2 -isystem /usr/include/aarch64-linux-gnu/qt5 -isystem /usr/include/aarch64-linux-gnu/qt5/QtOpenGL -isystem /usr/include/aarch64-linux-gnu/qt5/QtWidgets -isystem /usr/include/aarch64-linux-gnu/qt5/QtGui -isystem /usr/include/aarch64-linux-gnu/qt5/QtCore -isystem /usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++ -Wall -Wextra -Wpedantic -O3 -fPIC -MD -MT CMakeFiles/dbscan_detector_node.dir/src/dbscan_detector_node.cpp.o -MF CMakeFiles/dbscan_detector_node.dir/src/dbscan_detector_node.cpp.o.d -o CMakeFiles/dbscan_detector_node.dir/src/dbscan_detector_node.cpp.o -c /ws/src/voxel_detector/voxel_detector/src/dbscan_detector_node.cpp\n'}
+[0.100489] (-) TimerEvent: {}
+[0.203517] (-) TimerEvent: {}
+[0.304706] (-) TimerEvent: {}
+[0.407504] (-) TimerEvent: {}
+[0.510280] (-) TimerEvent: {}
+[0.611717] (-) TimerEvent: {}
+[0.715753] (-) TimerEvent: {}
+[0.817260] (-) TimerEvent: {}
+[0.922297] (-) TimerEvent: {}
+[1.027775] (-) TimerEvent: {}
+[1.131344] (-) TimerEvent: {}
+[1.232996] (-) TimerEvent: {}
+[1.333719] (-) TimerEvent: {}
+[1.435262] (-) TimerEvent: {}
+[1.537252] (-) TimerEvent: {}
+[1.640260] (-) TimerEvent: {}
+[1.745787] (-) TimerEvent: {}
+[1.847760] (-) TimerEvent: {}
+[1.951513] (-) TimerEvent: {}
+[2.057547] (-) TimerEvent: {}
+[2.158747] (-) TimerEvent: {}
+[2.263256] (-) TimerEvent: {}
+[2.364760] (-) TimerEvent: {}
+[2.468507] (-) TimerEvent: {}
+[2.569765] (-) TimerEvent: {}
+[2.671496] (-) TimerEvent: {}
+[2.773434] (-) TimerEvent: {}
+[2.879510] (-) TimerEvent: {}
+[2.982753] (-) TimerEvent: {}
+[3.084941] (-) TimerEvent: {}
+[3.188247] (-) TimerEvent: {}
+[3.290243] (-) TimerEvent: {}
+[3.390527] (-) TimerEvent: {}
+[3.495281] (-) TimerEvent: {}
+[3.601023] (-) TimerEvent: {}
+[3.705007] (-) TimerEvent: {}
+[3.808576] (-) TimerEvent: {}
+[3.914542] (-) TimerEvent: {}
+[4.020553] (-) TimerEvent: {}
+[4.121599] (-) TimerEvent: {}
+[4.227515] (-) TimerEvent: {}
+[4.329057] (-) TimerEvent: {}
+[4.434524] (-) TimerEvent: {}
+[4.535523] (-) TimerEvent: {}
+[4.641533] (-) TimerEvent: {}
+[4.744716] (-) TimerEvent: {}
+[4.850519] (-) TimerEvent: {}
+[4.956553] (-) TimerEvent: {}
+[5.060408] (-) TimerEvent: {}
+[5.162326] (-) TimerEvent: {}
+[5.268514] (-) TimerEvent: {}
+[5.371780] (-) TimerEvent: {}
+[5.475485] (-) TimerEvent: {}
+[5.576626] (-) TimerEvent: {}
+[5.680573] (-) TimerEvent: {}
+[5.785407] (-) TimerEvent: {}
+[5.886551] (-) TimerEvent: {}
+[5.992523] (-) TimerEvent: {}
+[6.098567] (-) TimerEvent: {}
+[6.202568] (-) TimerEvent: {}
+[6.307211] (-) TimerEvent: {}
+[6.408579] (-) TimerEvent: {}
+[6.514498] (-) TimerEvent: {}
+[6.616492] (-) TimerEvent: {}
+[6.718761] (-) TimerEvent: {}
+[6.820237] (-) TimerEvent: {}
+[6.920524] (-) TimerEvent: {}
+[7.022005] (-) TimerEvent: {}
+[7.124481] (-) TimerEvent: {}
+[7.225761] (-) TimerEvent: {}
+[7.329261] (-) TimerEvent: {}
+[7.431684] (-) TimerEvent: {}
+[7.534017] (-) TimerEvent: {}
+[7.637256] (-) TimerEvent: {}
+[7.741743] (-) TimerEvent: {}
+[7.842982] (-) TimerEvent: {}
+[7.944550] (-) TimerEvent: {}
+[8.045806] (-) TimerEvent: {}
+[8.150021] (-) TimerEvent: {}
+[8.250626] (-) TimerEvent: {}
+[8.356497] (-) TimerEvent: {}
+[8.457557] (-) TimerEvent: {}
+[8.559754] (-) TimerEvent: {}
+[8.662532] (-) TimerEvent: {}
+[8.767348] (-) TimerEvent: {}
+[8.871865] (-) TimerEvent: {}
+[8.972580] (-) TimerEvent: {}
+[9.075515] (-) TimerEvent: {}
+[9.124384] (voxel_detector) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable dbscan_detector_node\x1b[0m\n'}
+[9.124764] (voxel_detector) StdoutLine: {'line': b'/usr/bin/cmake -E cmake_link_script CMakeFiles/dbscan_detector_node.dir/link.txt --verbose=1\n'}
+[9.128324] (voxel_detector) StdoutLine: {'line': b'/usr/bin/c++ CMakeFiles/dbscan_detector_node.dir/src/dbscan_detector_node.cpp.o -o dbscan_detector_node  -Wl,-rpath,/opt/ros/humble/lib: /opt/ros/humble/lib/libvisualization_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libmessage_filters.so /opt/ros/humble/lib/librclcpp.so /opt/ros/humble/lib/librosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/librmw.so /opt/ros/humble/lib/librosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/librcutils.so -ldl -latomic /opt/ros/humble/lib/librcpputils.so /opt/ros/humble/lib/librosidl_typesupport_c.so /opt/ros/humble/lib/librosidl_typesupport_cpp.so /opt/ros/humble/lib/librosidl_runtime_c.so /opt/ros/humble/lib/librosidl_typesupport_introspection_c.so /opt/ros/humble/lib/librosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libpcl_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libpcl_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libpcl_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_generator_py.so /opt/ros/humble/lib/librclcpp.so /opt/ros/humble/lib/liblibstatistics_collector.so /opt/ros/humble/lib/librcl.so /opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_cpp.so /opt/ros/humble/lib/librcl_interfaces__rosidl_generator_py.so /opt/ros/humble/lib/librcl_yaml_param_parser.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libtracetools.so /opt/ros/humble/lib/libsensor_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libsensor_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libstd_msgs__rosidl_generator_py.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_generator_py.so /usr/lib/aarch64-linux-gnu/libpython3.10.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_generator_py.so /usr/lib/libOpenNI.so /usr/lib/aarch64-linux-gnu/libOpenNI2.so /usr/lib/aarch64-linux-gnu/libusb-1.0.so /usr/lib/aarch64-linux-gnu/libpcl_apps.so /usr/lib/aarch64-linux-gnu/libpcl_outofcore.so /usr/lib/aarch64-linux-gnu/libpcl_people.so /usr/lib/libOpenNI.so /usr/lib/aarch64-linux-gnu/libusb-1.0.so /usr/lib/aarch64-linux-gnu/libOpenNI2.so /usr/lib/aarch64-linux-gnu/libusb-1.0.so /usr/lib/aarch64-linux-gnu/libflann_cpp.so /opt/ros/humble/lib/librmw_implementation.so /opt/ros/humble/lib/libament_index_cpp.so /opt/ros/humble/lib/librcl_logging_spdlog.so /opt/ros/humble/lib/librcl_logging_interface.so /opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_c.so /opt/ros/humble/lib/librcl_interfaces__rosidl_generator_c.so /opt/ros/humble/lib/libyaml.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/librosgraph_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libstatistics_msgs__rosidl_generator_c.so /opt/ros/humble/lib/librosidl_typesupport_fastrtps_c.so /opt/ros/humble/lib/librosidl_typesupport_fastrtps_cpp.so /opt/ros/humble/lib/libfastcdr.so.1.0.29 /opt/ros/humble/lib/librmw.so /opt/ros/humble/lib/librosidl_typesupport_introspection_cpp.so /opt/ros/humble/lib/librosidl_typesupport_introspection_c.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_cpp.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_typesupport_cpp.so /opt/ros/humble/lib/librosidl_typesupport_cpp.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libvisualization_msgs__rosidl_generator_c.so /usr/lib/aarch64-linux-gnu/libpython3.10.so /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libpcl_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libsensor_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libgeometry_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libstd_msgs__rosidl_typesupport_c.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_typesupport_c.so /opt/ros/humble/lib/librosidl_typesupport_c.so /opt/ros/humble/lib/librcpputils.so /opt/ros/humble/lib/libstd_msgs__rosidl_generator_c.so /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_generator_c.so /opt/ros/humble/lib/librosidl_runtime_c.so /opt/ros/humble/lib/librcutils.so -latomic /usr/lib/aarch64-linux-gnu/libpcl_surface.so /usr/lib/aarch64-linux-gnu/libpcl_keypoints.so /usr/lib/aarch64-linux-gnu/libpcl_tracking.so /usr/lib/aarch64-linux-gnu/libpcl_recognition.so /usr/lib/aarch64-linux-gnu/libpcl_registration.so /usr/lib/aarch64-linux-gnu/libpcl_stereo.so /usr/lib/aarch64-linux-gnu/libpcl_segmentation.so /usr/lib/aarch64-linux-gnu/libpcl_features.so /usr/lib/aarch64-linux-gnu/libpcl_filters.so /usr/lib/aarch64-linux-gnu/libpcl_sample_consensus.so /usr/lib/aarch64-linux-gnu/libpcl_ml.so /usr/lib/aarch64-linux-gnu/libpcl_visualization.so /usr/lib/aarch64-linux-gnu/libpcl_search.so /usr/lib/aarch64-linux-gnu/libpcl_kdtree.so /usr/lib/aarch64-linux-gnu/libpcl_io.so /usr/lib/aarch64-linux-gnu/libpcl_octree.so /usr/lib/aarch64-linux-gnu/libpng.so /usr/lib/aarch64-linux-gnu/libz.so /usr/lib/libOpenNI.so /usr/lib/aarch64-linux-gnu/libOpenNI2.so /usr/lib/aarch64-linux-gnu/libusb-1.0.so /usr/lib/aarch64-linux-gnu/libvtkChartsCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkInteractionImage-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkIOGeometry-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libjsoncpp.so /usr/lib/aarch64-linux-gnu/libvtkIOPLY-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingLOD-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkViewsContext2D-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkViewsCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkGUISupportQt-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkInteractionWidgets-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkFiltersModeling-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkInteractionStyle-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkFiltersExtraction-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkIOLegacy-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkIOCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingAnnotation-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingContext2D-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingFreeType-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libfreetype.so /usr/lib/aarch64-linux-gnu/libvtkImagingSources-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkIOImage-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkImagingCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingOpenGL2-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingUI-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkRenderingCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonColor-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkFiltersGeometry-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkFiltersSources-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkFiltersGeneral-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonComputationalGeometry-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkFiltersCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonExecutionModel-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonDataModel-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonMisc-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonTransforms-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkCommonMath-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libvtkkissfft-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libGLEW.so /usr/lib/aarch64-linux-gnu/libX11.so /usr/lib/aarch64-linux-gnu/libQt5OpenGL.so.5.15.3 /usr/lib/aarch64-linux-gnu/libQt5Widgets.so.5.15.3 /usr/lib/aarch64-linux-gnu/libQt5Gui.so.5.15.3 /usr/lib/aarch64-linux-gnu/libQt5Core.so.5.15.3 /usr/lib/aarch64-linux-gnu/libvtkCommonCore-9.1.so.9.1.0 /usr/lib/aarch64-linux-gnu/libtbb.so.12.5 /usr/lib/aarch64-linux-gnu/libvtksys-9.1.so.9.1.0 -ldl /usr/lib/aarch64-linux-gnu/libpcl_common.so /usr/lib/aarch64-linux-gnu/libboost_system.so.1.74.0 /usr/lib/aarch64-linux-gnu/libboost_filesystem.so.1.74.0 /usr/lib/aarch64-linux-gnu/libboost_date_time.so.1.74.0 /usr/lib/aarch64-linux-gnu/libboost_iostreams.so.1.74.0 /usr/lib/aarch64-linux-gnu/libboost_serialization.so.1.74.0 -llz4 /usr/lib/aarch64-linux-gnu/libqhull_r.so.8.0.2 -lm \n'}
+[9.177221] (-) TimerEvent: {}
+[9.278007] (-) TimerEvent: {}
+[9.383527] (-) TimerEvent: {}
+[9.484812] (-) TimerEvent: {}
+[9.566153] (voxel_detector) StdoutLine: {'line': b"gmake[2]: Leaving directory '/ws/build/voxel_detector'\n"}
+[9.570667] (voxel_detector) StdoutLine: {'line': b'[100%] Built target dbscan_detector_node\n'}
+[9.571049] (voxel_detector) StdoutLine: {'line': b"gmake[1]: Leaving directory '/ws/build/voxel_detector'\n"}
+[9.571196] (voxel_detector) StdoutLine: {'line': b'/usr/bin/cmake -E cmake_progress_start /ws/build/voxel_detector/CMakeFiles 0\n'}
+[9.577110] (voxel_detector) CommandEnded: {'returncode': 0}
+[9.577605] (voxel_detector) JobProgress: {'identifier': 'voxel_detector', 'progress': 'install'}
+[9.582194] (voxel_detector) Command: {'cmd': ['/usr/bin/cmake', '--install', '/ws/build/voxel_detector'], 'cwd': '/ws/build/voxel_detector', 'env': OrderedDict([('TMUX', '/tmp/tmux-0/default,36,0'), ('WS', '/ws'), ('HOSTNAME', 'ce0a955192b2'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/ws'), ('TERM_PROGRAM_VERSION', '3.2a'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'screen'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('TERM_PROGRAM', 'tmux'), ('ROS_DOMAIN_ID', '0'), ('AMENT_PREFIX_PATH', '/ws/install/voxel_detector:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('PWD', '/ws/build/voxel_detector'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('TMUX_PANE', '%1'), ('CMAKE_PREFIX_PATH', '/ws/install/voxel_detector:/opt/ros/humble')]), 'shell': False}
+[9.585268] (voxel_detector) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[9.585331] (-) TimerEvent: {}
+[9.585587] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/lib/voxel_detector/voxel_detector_node\n'}
+[9.585850] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/lib/voxel_detector/euclidean_detector_node\n'}
+[9.586043] (voxel_detector) StdoutLine: {'line': b'-- Installing: /ws/install/voxel_detector/lib/voxel_detector/dbscan_detector_node\n'}
+[9.586871] (voxel_detector) StdoutLine: {'line': b'-- Set runtime path of "/ws/install/voxel_detector/lib/voxel_detector/dbscan_detector_node" to ""\n'}
+[9.586950] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/launch\n'}
+[9.587057] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/launch/voxel_detector.launch.py\n'}
+[9.587123] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/launch/euclidean_detector.launch.py\n'}
+[9.587159] (voxel_detector) StdoutLine: {'line': b'-- Installing: /ws/install/voxel_detector/share/voxel_detector/launch/dbscan_detector.launch.py\n'}
+[9.587260] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/config\n'}
+[9.587380] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/ament_index/resource_index/package_run_dependencies/voxel_detector\n'}
+[9.587464] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/ament_index/resource_index/parent_prefix_path/voxel_detector\n'}
+[9.587543] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/ament_prefix_path.sh\n'}
+[9.587640] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/ament_prefix_path.dsv\n'}
+[9.587679] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/path.sh\n'}
+[9.587713] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/path.dsv\n'}
+[9.587738] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.bash\n'}
+[9.587759] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.sh\n'}
+[9.587788] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.zsh\n'}
+[9.587837] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.dsv\n'}
+[9.587883] (voxel_detector) StdoutLine: {'line': b'-- Installing: /ws/install/voxel_detector/share/voxel_detector/package.dsv\n'}
+[9.587956] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/ament_index/resource_index/packages/voxel_detector\n'}
+[9.587995] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/cmake/voxel_detectorConfig.cmake\n'}
+[9.588019] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/cmake/voxel_detectorConfig-version.cmake\n'}
+[9.588043] (voxel_detector) StdoutLine: {'line': b'-- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/package.xml\n'}
+[9.589053] (voxel_detector) CommandEnded: {'returncode': 0}
+[9.597335] (voxel_detector) JobEnded: {'identifier': 'voxel_detector', 'rc': 0}
+[9.597712] (-) EventReactorShutdown: {}

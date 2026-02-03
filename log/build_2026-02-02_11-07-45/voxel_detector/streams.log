@@ -1,0 +1,61 @@
+[0.010s] Invoking command in '/ws/build/voxel_detector': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ws/build/voxel_detector -- -j5 -l5
+[0.031s] /usr/bin/cmake -S/ws/src/voxel_detector/voxel_detector -B/ws/build/voxel_detector --check-build-system CMakeFiles/Makefile.cmake 0
+[0.045s] /usr/bin/cmake -E cmake_progress_start /ws/build/voxel_detector/CMakeFiles /ws/build/voxel_detector//CMakeFiles/progress.marks
+[0.061s] /usr/bin/gmake  -f CMakeFiles/Makefile2 all
+[0.062s] gmake[1]: Entering directory '/ws/build/voxel_detector'
+[0.062s] /usr/bin/gmake  -f CMakeFiles/voxel_detector_node.dir/build.make CMakeFiles/voxel_detector_node.dir/depend
+[0.062s] /usr/bin/gmake  -f CMakeFiles/euclidean_detector_node.dir/build.make CMakeFiles/euclidean_detector_node.dir/depend
+[0.062s] /usr/bin/gmake  -f CMakeFiles/dbscan_detector_node.dir/build.make CMakeFiles/dbscan_detector_node.dir/depend
+[0.067s] gmake[2]: Entering directory '/ws/build/voxel_detector'
+[0.067s] cd /ws/build/voxel_detector && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /ws/src/voxel_detector/voxel_detector /ws/src/voxel_detector/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector/CMakeFiles/voxel_detector_node.dir/DependInfo.cmake --color=
+[0.068s] gmake[2]: Entering directory '/ws/build/voxel_detector'
+[0.068s] cd /ws/build/voxel_detector && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /ws/src/voxel_detector/voxel_detector /ws/src/voxel_detector/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector/CMakeFiles/euclidean_detector_node.dir/DependInfo.cmake --color=
+[0.068s] gmake[2]: Entering directory '/ws/build/voxel_detector'
+[0.068s] cd /ws/build/voxel_detector && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /ws/src/voxel_detector/voxel_detector /ws/src/voxel_detector/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector /ws/build/voxel_detector/CMakeFiles/dbscan_detector_node.dir/DependInfo.cmake --color=
+[0.079s] gmake[2]: Leaving directory '/ws/build/voxel_detector'
+[0.079s] gmake[2]: Leaving directory '/ws/build/voxel_detector'
+[0.079s] /usr/bin/gmake  -f CMakeFiles/voxel_detector_node.dir/build.make CMakeFiles/voxel_detector_node.dir/build
+[0.079s] /usr/bin/gmake  -f CMakeFiles/dbscan_detector_node.dir/build.make CMakeFiles/dbscan_detector_node.dir/build
+[0.079s] gmake[2]: Leaving directory '/ws/build/voxel_detector'
+[0.080s] /usr/bin/gmake  -f CMakeFiles/euclidean_detector_node.dir/build.make CMakeFiles/euclidean_detector_node.dir/build
+[0.102s] gmake[2]: Entering directory '/ws/build/voxel_detector'
+[0.102s] gmake[2]: Entering directory '/ws/build/voxel_detector'
+[0.102s] gmake[2]: Entering directory '/ws/build/voxel_detector'
+[0.103s] gmake[2]: Nothing to be done for 'CMakeFiles/dbscan_detector_node.dir/build'.
+[0.103s] gmake[2]: Nothing to be done for 'CMakeFiles/voxel_detector_node.dir/build'.
+[0.103s] gmake[2]: Nothing to be done for 'CMakeFiles/euclidean_detector_node.dir/build'.
+[0.103s] gmake[2]: Leaving directory '/ws/build/voxel_detector'
+[0.103s] gmake[2]: Leaving directory '/ws/build/voxel_detector'
+[0.103s] gmake[2]: Leaving directory '/ws/build/voxel_detector'
+[0.110s] [100%] Built target euclidean_detector_node
+[0.110s] [100%] Built target voxel_detector_node
+[0.110s] [100%] Built target dbscan_detector_node
+[0.110s] gmake[1]: Leaving directory '/ws/build/voxel_detector'
+[0.110s] /usr/bin/cmake -E cmake_progress_start /ws/build/voxel_detector/CMakeFiles 0
+[0.116s] Invoked command in '/ws/build/voxel_detector' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ws/build/voxel_detector -- -j5 -l5
+[0.121s] Invoking command in '/ws/build/voxel_detector': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /ws/build/voxel_detector
+[0.124s] -- Install configuration: ""
+[0.124s] -- Up-to-date: /ws/install/voxel_detector/lib/voxel_detector/voxel_detector_node
+[0.124s] -- Up-to-date: /ws/install/voxel_detector/lib/voxel_detector/euclidean_detector_node
+[0.125s] -- Up-to-date: /ws/install/voxel_detector/lib/voxel_detector/dbscan_detector_node
+[0.125s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/launch
+[0.125s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/launch/voxel_detector.launch.py
+[0.125s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/launch/euclidean_detector.launch.py
+[0.125s] -- Installing: /ws/install/voxel_detector/share/voxel_detector/launch/dbscan_detector.launch.py
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/config
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/ament_index/resource_index/package_run_dependencies/voxel_detector
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/ament_index/resource_index/parent_prefix_path/voxel_detector
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/ament_prefix_path.sh
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/ament_prefix_path.dsv
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/path.sh
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/environment/path.dsv
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.bash
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.sh
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.zsh
+[0.126s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/local_setup.dsv
+[0.126s] -- Installing: /ws/install/voxel_detector/share/voxel_detector/package.dsv
+[0.127s] -- Up-to-date: /ws/install/voxel_detector/share/ament_index/resource_index/packages/voxel_detector
+[0.127s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/cmake/voxel_detectorConfig.cmake
+[0.127s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/cmake/voxel_detectorConfig-version.cmake
+[0.127s] -- Up-to-date: /ws/install/voxel_detector/share/voxel_detector/package.xml
+[0.128s] Invoked command in '/ws/build/voxel_detector' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /ws/build/voxel_detector
