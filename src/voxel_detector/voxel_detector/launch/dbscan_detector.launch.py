@@ -65,6 +65,8 @@ def generate_launch_description():
     ])
 
 
+# Old Launch file (no ROI & shape filtering)
+
 # from launch import LaunchDescription
 # from launch_ros.actions import Node
 
