@@ -22,8 +22,8 @@ def generate_launch_description():
                 
                 # Downsampling (CRITICAL for speed)
                 'downsample_leaf_size': 0.1,           # 10cm voxel grid
-                                                        # Increase to 0.15 for more speed
-                                                        # Decrease to 0.08 for more accuracy
+                                                        # Increase for more speed
+                                                        # Decrease for more accuracy
                 
                 # Cluster filtering
                 'min_cluster_size': 15,                 # Minimum points per cluster
@@ -37,7 +37,7 @@ def generate_launch_description():
                 # Height extrapolation
                 'use_height_extrapolation': True,
                 
-                # ROI filtering (Region of Interest - crop to road area)
+                # ROI filtering (Crop to road area)
                 'use_roi_filter': True,                # Enable ROI filtering
                 'roi_min_x': 0.0,                      # Min X (meters) - behind vehicle
                 'roi_max_x': 50.0,                     # Max X (meters) - front of vehicle
@@ -76,7 +76,7 @@ def generate_launch_description():
 #             name='dbscan_detector',
 #             output='screen',
 #             parameters=[{
-#                 # DBSCAN parameters (KEY TUNING)
+#                 # DBSCAN parameters
 #                 'eps': 0.5,                             # Neighborhood radius (meters)
 #                                                          # Smaller = tighter clusters, more splits
 #                                                          # Larger = looser clusters, may merge
