@@ -36,9 +36,9 @@
 
 ### Run Nodes
 ```
-ros2 launch voxel_detector voxel_detector.launch.py
+ros2 launch voxel_detector dbscan_detector.launch.py
 
 ros2 launch voxel_detector euclidean_detector.launch.py
 
-ros2 launch voxel_detector dbscan_detector.launch.py
+ros2 launch voxel_detector voxel_detector.launch.py
 ```
