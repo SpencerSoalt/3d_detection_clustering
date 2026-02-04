@@ -9,7 +9,7 @@ def generate_launch_description():
             name='dbscan_detector',
             output='screen',
             parameters=[{
-                # DBSCAN parameters (KEY TUNING)
+                # DBSCAN parameters
                 'eps': 0.5,                             # Neighborhood radius (meters)
                                                          # Smaller = tighter clusters, more splits
                                                          # Larger = looser clusters, may merge
