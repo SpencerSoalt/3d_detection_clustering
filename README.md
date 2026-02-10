@@ -3,7 +3,7 @@
 
 
 
-### Configure Topic `src/voxel_detector/voxel_detector/src/dbscan_detector_node.cpp`
+### Configure Topic `src/clustering/src/dbscan_detector.cpp`
 ```
         // Subscriber and Publisher
         sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
@@ -12,7 +12,7 @@
 ```
 
 
-### Configure Parameters `src/voxel_detector/voxel_detector/launch/dbscan_detector.launch.py`
+### Configure Parameters `src/clustering/launch/dbscan_detector.launch.py`
 * `eps`: DBSCAN neighbor radius (m)
 * `min_points`: DBSCAN core-point minimum neighbors
 * `downsample_leaf_size`: voxel-grid downsample size (m)
@@ -36,9 +36,9 @@
 
 ### Run Nodes
 ```
-ros2 launch voxel_detector dbscan_detector.launch.py
+ros2 launch clustering dbscan_detector.launch.py
 
-ros2 launch voxel_detector euclidean_detector.launch.py
+ros2 launch clustering euclidean_detector.launch.py
 
-ros2 launch voxel_detector voxel_detector.launch.py
+ros2 launch clustering voxel_detector.launch.py
 ```
