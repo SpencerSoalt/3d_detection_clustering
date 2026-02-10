@@ -4,8 +4,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='voxel_detector',
-            executable='voxel_detector_node',
+            package='clustering',
+            executable='voxel_detector',
             name='voxel_detector',
             output='screen',
             parameters=[{

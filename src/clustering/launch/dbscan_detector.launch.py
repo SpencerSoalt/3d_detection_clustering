@@ -4,8 +4,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='voxel_detector',
-            executable='dbscan_detector_node',
+            package='clustering',
+            executable='dbscan_detector',
             name='dbscan_detector',
             output='screen',
             parameters=[{
@@ -26,13 +26,14 @@ def generate_launch_description():
                                                         # Decrease for more accuracy
                 
                 # Cluster filtering
-                'min_cluster_size': 15,                 # Minimum points per cluster
+                'min_cluster_size': 30,                 # Minimum points per cluster
                 'max_cluster_size': 300,              # Maximum points per cluster
                 
-                # Ground removal
-                'ransac_distance_threshold': 0.15,
-                'ransac_max_iterations': 50,
-                'max_z_threshold': 2.75,
+                # # Ground removal
+                # 'ransac_distance_threshold': 0.15,
+                # 'ransac_max_iterations': 50,
+
+                'max_z_threshold': 1.98,             # Filter points above this height (meters)
                 
                 # Height extrapolation
                 'use_height_extrapolation': True,
@@ -41,8 +42,8 @@ def generate_launch_description():
                 'use_roi_filter': True,                # Enable ROI filtering
                 'roi_min_x': 0.0,                      # Min X (meters) - behind vehicle
                 'roi_max_x': 50.0,                     # Max X (meters) - front of vehicle
-                'roi_min_y': -6.0,                    # Min Y (meters) - left side (negative)
-                'roi_max_y': 6.0,                     # Max Y (meters) - right side (positive)
+                'roi_min_y': -7.0,                    # Min Y (meters) - left side (negative)
+                'roi_max_y': 7.0,                     # Max Y (meters) - right side (positive)
             
              # Shape filtering (filter out flat/wide boxes)
                 'use_shape_filter': True,             # Enable shape filtering
@@ -60,7 +61,13 @@ def generate_launch_description():
                                                        # 8.0 = strict (single car)
                                                        # 10.0 = balanced (default, truck/bus)
                                                        # 15.0 = loose (allow very long objects)
-            }]
+                'min_point_density': 30.0,            # Min points per m³ (filters vegetation!)
+                                                        # Trees/bushes: 5-10 pts/m³ (sparse)
+                                                        # Cars: 20-50 pts/m³ (dense)
+                                                        # 15.0 = good balance
+                                                        # Increase to 20-25 if still noisy
+                                                        # Set to 0.0 to disable
+                }]
         )
     ])
 
@@ -73,7 +80,7 @@ def generate_launch_description():
 # def generate_launch_description():
 #     return LaunchDescription([
 #         Node(
-#             package='voxel_detector',
+#             package='clustering',
 #             executable='dbscan_detector_node',
 #             name='dbscan_detector',
 #             output='screen',

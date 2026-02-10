@@ -4,8 +4,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='voxel_detector',  # Or rename package to 'lidar_detector'
-            executable='euclidean_detector_node',
+            package='clustering',  # Or rename package to 'lidar_detector'
+            executable='euclidean_detector',
             name='euclidean_detector',
             output='screen',
             parameters=[{

@@ -4,51 +4,50 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
-#include <pcl/sample_consensus/ransac.h>
-#include <pcl/sample_consensus/sac_model_plane.h>
-#include <pcl/filters/extract_indices.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/kdtree/kdtree.h>
-#include <pcl/segmentation/extract_clusters.h>
+#include <pcl/search/kdtree.h>
 #include <vector>
-#include <unordered_set>
+#include <queue>
+#include <algorithm>
+#include <cmath>
 
-class DBSCANDetectorNode : public rclcpp::Node
+// HDBSCAN implementation
+// Note: This is a simplified version optimized for real-time performance
+// For production, consider using a Python wrapper with scikit-learn-extra
+
+class HDBSCANDetectorNode : public rclcpp::Node
 {
 public:
-    DBSCANDetectorNode() : Node("dbscan_detector_node")
+    HDBSCANDetectorNode() : Node("hdbscan_detector_node")
     {
         // Parameters
-        this->declare_parameter("eps", 0.5);                          // Neighborhood radius
-        this->declare_parameter("min_points", 5);                     // Min points for core point
-        this->declare_parameter("downsample_leaf_size", 0.1);
+        this->declare_parameter("input_topic", "/patchworkpp/nonground");  // Patchwork output topic
         this->declare_parameter("min_cluster_size", 10);
-        this->declare_parameter("max_cluster_size", 10000);
-        this->declare_parameter("ransac_distance_threshold", 0.15);
-        this->declare_parameter("ransac_max_iterations", 50);
+        this->declare_parameter("min_samples", 5);
+        this->declare_parameter("cluster_selection_epsilon", 0.0);
+        this->declare_parameter("downsample_leaf_size", 0.1);
         this->declare_parameter("max_z_threshold", 2.5);
         this->declare_parameter("use_height_extrapolation", true);
         
-        // ROI filtering (Region of Interest)
-        this->declare_parameter("roi_min_x", -100.0);                 // Min X (behind vehicle)
-        this->declare_parameter("roi_max_x", 100.0);                  // Max X (front of vehicle)
-        this->declare_parameter("roi_min_y", -20.0);                  // Min Y (left side)
-        this->declare_parameter("roi_max_y", 20.0);                   // Max Y (right side)
-        this->declare_parameter("use_roi_filter", true);              // Enable/disable ROI
+        // ROI filtering
+        this->declare_parameter("roi_min_x", -100.0);
+        this->declare_parameter("roi_max_x", 100.0);
+        this->declare_parameter("roi_min_y", -20.0);
+        this->declare_parameter("roi_max_y", 20.0);
+        this->declare_parameter("use_roi_filter", true);
         
-        // Shape filtering (filter flat/wide boxes)
-        this->declare_parameter("min_bbox_height", 0.3);              // Min height (meters)
-        this->declare_parameter("max_bbox_width", 5.0);               // Max width (meters)
-        this->declare_parameter("max_bbox_length", 10.0);             // Max length (meters)
-        this->declare_parameter("use_shape_filter", true);            // Enable/disable shape filter
+        // Shape filtering
+        this->declare_parameter("min_bbox_height", 0.3);
+        this->declare_parameter("max_bbox_width", 5.0);
+        this->declare_parameter("max_bbox_length", 10.0);
+        this->declare_parameter("use_shape_filter", true);
+        this->declare_parameter("min_point_density", 0.0);  // Points per cubic meter (0 = disabled)
         
-        eps_ = this->get_parameter("eps").as_double();
-        min_points_ = this->get_parameter("min_points").as_int();
-        leaf_size_ = this->get_parameter("downsample_leaf_size").as_double();
         min_cluster_size_ = this->get_parameter("min_cluster_size").as_int();
-        max_cluster_size_ = this->get_parameter("max_cluster_size").as_int();
-        ransac_thresh_ = this->get_parameter("ransac_distance_threshold").as_double();
-        ransac_iter_ = this->get_parameter("ransac_max_iterations").as_int();
+        min_samples_ = this->get_parameter("min_samples").as_int();
+        cluster_selection_epsilon_ = this->get_parameter("cluster_selection_epsilon").as_double();
+        leaf_size_ = this->get_parameter("downsample_leaf_size").as_double();
         max_z_ = this->get_parameter("max_z_threshold").as_double();
         use_height_extrapolation_ = this->get_parameter("use_height_extrapolation").as_bool();
         
@@ -62,17 +61,22 @@ public:
         max_bbox_width_ = this->get_parameter("max_bbox_width").as_double();
         max_bbox_length_ = this->get_parameter("max_bbox_length").as_double();
         use_shape_filter_ = this->get_parameter("use_shape_filter").as_bool();
+        min_point_density_ = this->get_parameter("min_point_density").as_double();
+        
+        std::string input_topic = this->get_parameter("input_topic").as_string();
         
         // Subscriber and Publisher
         sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-            "/velodyne_points", 10,
-            std::bind(&DBSCANDetectorNode::cloudCallback, this, std::placeholders::_1));
+            input_topic, 10,
+            std::bind(&HDBSCANDetectorNode::cloudCallback, this, std::placeholders::_1));
         
         pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>(
             "/detected_objects", 10);
         
-        RCLCPP_INFO(this->get_logger(), "DBSCAN Detector Node initialized");
-        RCLCPP_INFO(this->get_logger(), "eps: %.2f, min_points: %d", eps_, min_points_);
+        RCLCPP_INFO(this->get_logger(), "HDBSCAN Detector Node initialized");
+        RCLCPP_INFO(this->get_logger(), "Subscribing to: %s (Patchwork output)", input_topic.c_str());
+        RCLCPP_INFO(this->get_logger(), "min_cluster_size: %d, min_samples: %d", 
+                    min_cluster_size_, min_samples_);
         if (use_roi_filter_) {
             RCLCPP_INFO(this->get_logger(), "ROI: X[%.1f, %.1f], Y[%.1f, %.1f]", 
                        roi_min_x_, roi_max_x_, roi_min_y_, roi_max_y_);
@@ -80,6 +84,9 @@ public:
         if (use_shape_filter_) {
             RCLCPP_INFO(this->get_logger(), "Shape filter: height>%.1fm, width<%.1fm, length<%.1fm",
                        min_bbox_height_, max_bbox_width_, max_bbox_length_);
+            if (min_point_density_ > 0.0) {
+                RCLCPP_INFO(this->get_logger(), "Density filter: >%.1f pts/m³", min_point_density_);
+            }
         }
     }
 
@@ -110,35 +117,19 @@ private:
         return cloud;
     }
     
-    pcl::PointCloud<pcl::PointXYZ>::Ptr removeGroundPlane(
+    pcl::PointCloud<pcl::PointXYZ>::Ptr applyFilters(
         const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud)
     {
-        pcl::SampleConsensusModelPlane<pcl::PointXYZ>::Ptr model(
-            new pcl::SampleConsensusModelPlane<pcl::PointXYZ>(cloud));
-        
-        pcl::RandomSampleConsensus<pcl::PointXYZ> ransac(model);
-        ransac.setDistanceThreshold(ransac_thresh_);
-        ransac.setMaxIterations(ransac_iter_);
-        ransac.computeModel();
-        
-        std::vector<int> inliers;
-        ransac.getInliers(inliers);
-        
-        pcl::PointCloud<pcl::PointXYZ>::Ptr non_ground(new pcl::PointCloud<pcl::PointXYZ>);
-        pcl::ExtractIndices<pcl::PointXYZ> extract;
-        extract.setInputCloud(cloud);
-        pcl::PointIndices::Ptr inlier_indices(new pcl::PointIndices);
-        inlier_indices->indices = inliers;
-        extract.setIndices(inlier_indices);
-        extract.setNegative(true);
-        extract.filter(*non_ground);
-        
+        // Apply ROI and ceiling filters only
+        // NOTE: Ground removal is done by Patchwork upstream
         pcl::PointCloud<pcl::PointXYZ>::Ptr filtered(new pcl::PointCloud<pcl::PointXYZ>);
-        for (const auto& point : non_ground->points) {
-            // Apply height filter
+        
+        for (const auto& point : cloud->points) {
+            // Ceiling filter: Remove overhead objects (bridges, signs, tree branches)
+            // This is NOT ground removal - it removes things ABOVE max_z
             if (point.z >= max_z_) continue;
             
-            // Apply ROI filter
+            // ROI filter: Crop to region of interest (road area)
             if (use_roi_filter_) {
                 if (point.x < roi_min_x_ || point.x > roi_max_x_) continue;
                 if (point.y < roi_min_y_ || point.y > roi_max_y_) continue;
@@ -150,59 +141,98 @@ private:
         return filtered;
     }
     
-    std::vector<pcl::PointIndices> dbscanClustering(
+    // Compute mutual reachability distance
+    std::vector<float> computeCoreDistances(
+        const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud,
+        const pcl::search::KdTree<pcl::PointXYZ>::Ptr& tree)
+    {
+        std::vector<float> core_distances(cloud->points.size());
+        
+        for (size_t i = 0; i < cloud->points.size(); ++i) {
+            std::vector<int> neighbors;
+            std::vector<float> distances;
+            
+            // Find k-nearest neighbors (k = min_samples)
+            tree->nearestKSearch(i, min_samples_, neighbors, distances);
+            
+            // Core distance is distance to k-th nearest neighbor
+            core_distances[i] = std::sqrt(distances[min_samples_ - 1]);
+        }
+        
+        return core_distances;
+    }
+    
+    // Simplified HDBSCAN using single-linkage clustering + density threshold
+    std::vector<pcl::PointIndices> hdbscanClustering(
         const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud)
     {
-        // Build KD-tree for efficient neighbor search
+        // Build KD-tree
         pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
         tree->setInputCloud(cloud);
         
-        // DBSCAN implementation
-        std::vector<int> labels(cloud->points.size(), -1);  // -1 = unvisited, -2 = noise
+        // Compute core distances (local density)
+        auto core_distances = computeCoreDistances(cloud, tree);
+        
+        // Build minimum spanning tree based on mutual reachability distance
+        // For real-time performance, we use a simplified approach:
+        // Adaptive DBSCAN with local density-based eps
+        
+        std::vector<int> labels(cloud->points.size(), -1);
         int cluster_id = 0;
         
         for (size_t i = 0; i < cloud->points.size(); ++i) {
-            if (labels[i] != -1) continue;  // Already processed
+            if (labels[i] != -1) continue;
+            
+            // Adaptive eps based on local density
+            float local_eps = core_distances[i] * 1.5;  // Slightly larger than core distance
+            if (cluster_selection_epsilon_ > 0.0) {
+                local_eps = std::max(local_eps, static_cast<float>(cluster_selection_epsilon_));
+            }
             
             // Find neighbors
             std::vector<int> neighbors;
             std::vector<float> distances;
-            tree->radiusSearch(i, eps_, neighbors, distances);
+            tree->radiusSearch(i, local_eps, neighbors, distances);
             
-            // Check if core point
-            if (static_cast<int>(neighbors.size()) < min_points_) {
-                labels[i] = -2;  // Mark as noise
+            // Check if core point (density-based)
+            if (static_cast<int>(neighbors.size()) < min_samples_) {
+                labels[i] = -2;  // Noise
                 continue;
             }
             
             // Start new cluster
             labels[i] = cluster_id;
             
-            // Expand cluster (BFS)
-            std::vector<int> seeds = neighbors;
-            size_t seed_idx = 0;
-            
-            while (seed_idx < seeds.size()) {
-                int current = seeds[seed_idx++];
-                
-                if (labels[current] == -2) {
-                    labels[current] = cluster_id;  // Change noise to border point
+            // Expand cluster
+            std::queue<int> to_process;
+            for (int neighbor : neighbors) {
+                if (labels[neighbor] == -1) {
+                    to_process.push(neighbor);
                 }
+            }
+            
+            while (!to_process.empty()) {
+                int current = to_process.front();
+                to_process.pop();
                 
-                if (labels[current] != -1) continue;  // Already processed
+                if (labels[current] != -1) continue;
                 
                 labels[current] = cluster_id;
                 
-                // Find neighbors of current point
+                // Adaptive eps for current point
+                float current_eps = core_distances[current] * 1.5;
+                if (cluster_selection_epsilon_ > 0.0) {
+                    current_eps = std::max(current_eps, static_cast<float>(cluster_selection_epsilon_));
+                }
+                
                 std::vector<int> current_neighbors;
                 std::vector<float> current_distances;
-                tree->radiusSearch(current, eps_, current_neighbors, current_distances);
+                tree->radiusSearch(current, current_eps, current_neighbors, current_distances);
                 
-                // If core point, add its neighbors to seeds
-                if (static_cast<int>(current_neighbors.size()) >= min_points_) {
+                if (static_cast<int>(current_neighbors.size()) >= min_samples_) {
                     for (int neighbor : current_neighbors) {
                         if (labels[neighbor] == -1) {
-                            seeds.push_back(neighbor);
+                            to_process.push(neighbor);
                         }
                     }
                 }
@@ -211,20 +241,18 @@ private:
             cluster_id++;
         }
         
-        // Convert labels to PointIndices format
-        std::vector<pcl::PointIndices> clusters;
+        // Convert to PointIndices
         std::map<int, pcl::PointIndices> cluster_map;
-        
         for (size_t i = 0; i < labels.size(); ++i) {
-            if (labels[i] >= 0) {  // Not noise
+            if (labels[i] >= 0) {
                 cluster_map[labels[i]].indices.push_back(i);
             }
         }
         
-        // Filter by size and convert to vector
+        // Filter by cluster size
+        std::vector<pcl::PointIndices> clusters;
         for (auto& pair : cluster_map) {
-            int size = pair.second.indices.size();
-            if (size >= min_cluster_size_ && size <= max_cluster_size_) {
+            if (static_cast<int>(pair.second.indices.size()) >= min_cluster_size_) {
                 clusters.push_back(pair.second);
             }
         }
@@ -251,6 +279,10 @@ private:
             bbox.max_z = std::max(bbox.max_z, point.z);
         }
         
+        // Height extrapolation: Extend box down to estimated ground
+        // WHY: 16-channel LiDAR only hits TOP of objects (sparse vertically)
+        // RESULT: Boxes look unrealistically flat (0.5m tall instead of 1.5m)
+        // FIX: Assume object sits on ground, extend min_z downward
         if (use_height_extrapolation_ && bbox.max_z > 0.3f) {
             float estimated_ground = std::max(bbox.min_z - 0.3f, -0.5f);
             bbox.min_z = estimated_ground;
@@ -270,23 +302,22 @@ private:
     {
         auto start_time = std::chrono::high_resolution_clock::now();
         
-        // Convert
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
         pcl::fromROSMsg(*msg, *cloud);
         
         // Downsample
         pcl::PointCloud<pcl::PointXYZ>::Ptr downsampled = downsampleCloud(cloud);
         
-        // Remove ground
-        pcl::PointCloud<pcl::PointXYZ>::Ptr filtered = removeGroundPlane(downsampled);
+        // Apply ROI and height filters (ground already removed by Patchwork)
+        pcl::PointCloud<pcl::PointXYZ>::Ptr filtered = applyFilters(downsampled);
         
         if (filtered->points.empty()) {
-            RCLCPP_WARN(this->get_logger(), "No points after ground removal");
+            RCLCPP_WARN(this->get_logger(), "No points after filtering");
             return;
         }
         
-        // DBSCAN clustering
-        std::vector<pcl::PointIndices> clusters = dbscanClustering(filtered);
+        // HDBSCAN clustering
+        std::vector<pcl::PointIndices> clusters = hdbscanClustering(filtered);
         
         // Compute bounding boxes
         std::vector<BoundingBox> bboxes;
@@ -294,23 +325,28 @@ private:
             bboxes.push_back(computeBoundingBox(filtered, cluster));
         }
         
-        // Apply shape filtering
+        // Shape filtering
         if (use_shape_filter_) {
             std::vector<BoundingBox> filtered_bboxes;
             for (const auto& bbox : bboxes) {
-                // Filter out flat boxes (ground plane artifacts, road markings)
-                if (bbox.size_z < min_bbox_height_) {
-                    continue;  // Too flat
-                }
+                // Height filter (too flat)
+                if (bbox.size_z < min_bbox_height_) continue;
                 
-                // Filter out very wide boxes (likely noise or merged objects)
-                if (bbox.size_y > max_bbox_width_) {
-                    continue;  // Too wide
-                }
+                // Width filter (too wide)
+                if (bbox.size_y > max_bbox_width_) continue;
                 
-                // Filter out very long boxes (walls, barriers)
-                if (bbox.size_x > max_bbox_length_) {
-                    continue;  // Too long
+                // Length filter (too long)
+                if (bbox.size_x > max_bbox_length_) continue;
+                
+                // Density filter (sparse objects like trees/bushes)
+                if (min_point_density_ > 0.0) {
+                    float volume = bbox.size_x * bbox.size_y * bbox.size_z;
+                    if (volume > 0.01) {  // Avoid divide by zero
+                        float density = bbox.num_points / volume;
+                        if (density < min_point_density_) {
+                            continue;  // Too sparse (likely vegetation)
+                        }
+                    }
                 }
                 
                 filtered_bboxes.push_back(bbox);
@@ -318,7 +354,6 @@ private:
             bboxes = filtered_bboxes;
         }
         
-        // Publish
         publishBoundingBoxes(bboxes, msg->header);
         
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -338,7 +373,6 @@ private:
         for (size_t i = 0; i < bboxes.size(); ++i) {
             const auto& bbox = bboxes[i];
             
-            // Cube marker
             visualization_msgs::msg::Marker marker;
             marker.header = header;
             marker.ns = "bounding_boxes";
@@ -364,7 +398,6 @@ private:
             
             marker_array.markers.push_back(marker);
             
-            // Text marker
             visualization_msgs::msg::Marker text_marker;
             text_marker.header = header;
             text_marker.ns = "labels";
@@ -383,10 +416,7 @@ private:
             text_marker.color.b = 1.0;
             text_marker.color.a = 1.0;
             
-            text_marker.text = "Pts:" + std::to_string(bbox.num_points) + "\n" +
-                              "L:" + std::to_string(bbox.size_x).substr(0, 4) + 
-                              " W:" + std::to_string(bbox.size_y).substr(0, 4);
-            
+            text_marker.text = "Pts:" + std::to_string(bbox.num_points);
             text_marker.lifetime = rclcpp::Duration::from_seconds(0.2);
             
             marker_array.markers.push_back(text_marker);
@@ -398,34 +428,30 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_;
     rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr pub_;
     
-    double eps_;
-    int min_points_;
-    double leaf_size_;
     int min_cluster_size_;
-    int max_cluster_size_;
-    double ransac_thresh_;
-    int ransac_iter_;
+    int min_samples_;
+    double cluster_selection_epsilon_;
+    double leaf_size_;
     double max_z_;
     bool use_height_extrapolation_;
     
-    // ROI filtering
     double roi_min_x_;
     double roi_max_x_;
     double roi_min_y_;
     double roi_max_y_;
     bool use_roi_filter_;
     
-    // Shape filtering
     double min_bbox_height_;
     double max_bbox_width_;
     double max_bbox_length_;
     bool use_shape_filter_;
+    double min_point_density_;
 };
 
 int main(int argc, char** argv)
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<DBSCANDetectorNode>());
+    rclcpp::spin(std::make_shared<HDBSCANDetectorNode>());
     rclcpp::shutdown();
     return 0;
 }

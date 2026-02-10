@@ -58,7 +58,7 @@ ENV WS=/ws
 WORKDIR ${WS}
 
 # Copy your package into the workspace
-COPY src ${WS}/src/voxel_detector
+COPY src ${WS}/src
 
 # rosdep (safe even if some keys already satisfied)
 RUN rosdep init 2>/dev/null || true && rosdep update && \
