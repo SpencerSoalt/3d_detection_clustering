@@ -1,6 +1,9 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
+#include <vision_msgs/msg/detection3_d_array.hpp>
+#include <vision_msgs/msg/detection3_d.hpp>
+#include <vision_msgs/msg/object_hypothesis_with_pose.hpp>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -17,27 +20,27 @@ public:
     DBSCANDetectorNode() : Node("dbscan_detector_node")
     {
         // Parameters
-        this->declare_parameter("eps", 0.5);                          // Neighborhood radius
-        this->declare_parameter("min_points", 5);                     // Min points for core point
+        this->declare_parameter("eps", 0.5);
+        this->declare_parameter("min_points", 5);
         this->declare_parameter("downsample_leaf_size", 0.1);
         this->declare_parameter("min_cluster_size", 10);
         this->declare_parameter("max_cluster_size", 10000);
         this->declare_parameter("max_z_threshold", 2.5);
         this->declare_parameter("use_height_extrapolation", true);
         
-        // ROI filtering (Region of Interest)
-        this->declare_parameter("roi_min_x", -100.0);                 // Min X (behind vehicle)
-        this->declare_parameter("roi_max_x", 100.0);                  // Max X (front of vehicle)
-        this->declare_parameter("roi_min_y", -20.0);                  // Min Y (left side)
-        this->declare_parameter("roi_max_y", 20.0);                   // Max Y (right side)
-        this->declare_parameter("use_roi_filter", true);              // Enable/disable ROI
+        // ROI filtering
+        this->declare_parameter("roi_min_x", -100.0);
+        this->declare_parameter("roi_max_x", 100.0);
+        this->declare_parameter("roi_min_y", -20.0);
+        this->declare_parameter("roi_max_y", 20.0);
+        this->declare_parameter("use_roi_filter", true);
         
-        // Shape filtering (filter flat/wide boxes)
-        this->declare_parameter("min_bbox_height", 0.3);              // Min height (meters)
-        this->declare_parameter("max_bbox_width", 5.0);               // Max width (meters)
-        this->declare_parameter("max_bbox_length", 10.0);             // Max length (meters)
-        this->declare_parameter("use_shape_filter", true);            // Enable/disable shape filter
-        this->declare_parameter("min_point_density", 0.0);            // Points per cubic meter (0 = disabled)
+        // Shape filtering
+        this->declare_parameter("min_bbox_height", 0.3);
+        this->declare_parameter("max_bbox_width", 5.0);
+        this->declare_parameter("max_bbox_length", 10.0);
+        this->declare_parameter("use_shape_filter", true);
+        this->declare_parameter("min_point_density", 0.0);
         
         eps_ = this->get_parameter("eps").as_double();
         min_points_ = this->get_parameter("min_points").as_int();
@@ -64,16 +67,22 @@ public:
         qos.reliability(RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
         qos.durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
 
-        // Subscriber and Publisher
+        // Subscriber
         sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-            "/patchworkpp/nonground", qos,
+            "/velodyne_points", qos,
             std::bind(&DBSCANDetectorNode::cloudCallback, this, std::placeholders::_1));
         
-        pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>(
-            "/detected_objects", 10);
+        // Publishers
+        pub_markers_ = this->create_publisher<visualization_msgs::msg::MarkerArray>(
+            "/detected_objects/markers", 10);
+
+        pub_detections_ = this->create_publisher<vision_msgs::msg::Detection3DArray>(
+            "/clustering/detections", 10);
         
         RCLCPP_INFO(this->get_logger(), "DBSCAN Detector Node initialized");
         RCLCPP_INFO(this->get_logger(), "eps: %.2f, min_points: %d", eps_, min_points_);
+        RCLCPP_INFO(this->get_logger(), "Publishing markers -> /detected_objects/markers");
+        RCLCPP_INFO(this->get_logger(), "Publishing detections -> /detected_objects/detections");
         if (use_roi_filter_) {
             RCLCPP_INFO(this->get_logger(), "ROI: X[%.1f, %.1f], Y[%.1f, %.1f]", 
                        roi_min_x_, roi_max_x_, roi_min_y_, roi_max_y_);
@@ -117,14 +126,11 @@ private:
     pcl::PointCloud<pcl::PointXYZ>::Ptr applyFilters(
         const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud)
     {
-        // Apply ROI and height filters only (ground removal done by Patchwork)
         pcl::PointCloud<pcl::PointXYZ>::Ptr filtered(new pcl::PointCloud<pcl::PointXYZ>);
         
         for (const auto& point : cloud->points) {
-            // Height filter
             if (point.z >= max_z_) continue;
             
-            // ROI filter
             if (use_roi_filter_) {
                 if (point.x < roi_min_x_ || point.x > roi_max_x_) continue;
                 if (point.y < roi_min_y_ || point.y > roi_max_y_) continue;
@@ -139,32 +145,26 @@ private:
     std::vector<pcl::PointIndices> dbscanClustering(
         const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud)
     {
-        // Build KD-tree for efficient neighbor search
         pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
         tree->setInputCloud(cloud);
         
-        // DBSCAN implementation
-        std::vector<int> labels(cloud->points.size(), -1);  // -1 = unvisited, -2 = noise
+        std::vector<int> labels(cloud->points.size(), -1);
         int cluster_id = 0;
         
         for (size_t i = 0; i < cloud->points.size(); ++i) {
-            if (labels[i] != -1) continue;  // Already processed
+            if (labels[i] != -1) continue;
             
-            // Find neighbors
             std::vector<int> neighbors;
             std::vector<float> distances;
             tree->radiusSearch(i, eps_, neighbors, distances);
             
-            // Check if core point
             if (static_cast<int>(neighbors.size()) < min_points_) {
-                labels[i] = -2;  // Mark as noise
+                labels[i] = -2;
                 continue;
             }
             
-            // Start new cluster
             labels[i] = cluster_id;
             
-            // Expand cluster (BFS)
             std::vector<int> seeds = neighbors;
             size_t seed_idx = 0;
             
@@ -172,19 +172,17 @@ private:
                 int current = seeds[seed_idx++];
                 
                 if (labels[current] == -2) {
-                    labels[current] = cluster_id;  // Change noise to border point
+                    labels[current] = cluster_id;
                 }
                 
-                if (labels[current] != -1) continue;  // Already processed
+                if (labels[current] != -1) continue;
                 
                 labels[current] = cluster_id;
                 
-                // Find neighbors of current point
                 std::vector<int> current_neighbors;
                 std::vector<float> current_distances;
                 tree->radiusSearch(current, eps_, current_neighbors, current_distances);
                 
-                // If core point, add its neighbors to seeds
                 if (static_cast<int>(current_neighbors.size()) >= min_points_) {
                     for (int neighbor : current_neighbors) {
                         if (labels[neighbor] == -1) {
@@ -197,17 +195,15 @@ private:
             cluster_id++;
         }
         
-        // Convert labels to PointIndices format
         std::vector<pcl::PointIndices> clusters;
         std::map<int, pcl::PointIndices> cluster_map;
         
         for (size_t i = 0; i < labels.size(); ++i) {
-            if (labels[i] >= 0) {  // Not noise
+            if (labels[i] >= 0) {
                 cluster_map[labels[i]].indices.push_back(i);
             }
         }
         
-        // Filter by size and convert to vector
         for (auto& pair : cluster_map) {
             int size = pair.second.indices.size();
             if (size >= min_cluster_size_ && size <= max_cluster_size_) {
@@ -256,14 +252,10 @@ private:
     {
         auto start_time = std::chrono::high_resolution_clock::now();
         
-        // Convert
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
         pcl::fromROSMsg(*msg, *cloud);
         
-        // Downsample
         pcl::PointCloud<pcl::PointXYZ>::Ptr downsampled = downsampleCloud(cloud);
-        
-        // Apply ROI and height filters (ground already removed by Patchwork)
         pcl::PointCloud<pcl::PointXYZ>::Ptr filtered = applyFilters(downsampled);
         
         if (filtered->points.empty()) {
@@ -271,42 +263,25 @@ private:
             return;
         }
         
-        // DBSCAN clustering
         std::vector<pcl::PointIndices> clusters = dbscanClustering(filtered);
         
-        // Compute bounding boxes
         std::vector<BoundingBox> bboxes;
         for (const auto& cluster : clusters) {
             bboxes.push_back(computeBoundingBox(filtered, cluster));
         }
         
-        // Apply shape filtering
         if (use_shape_filter_) {
             std::vector<BoundingBox> filtered_bboxes;
             for (const auto& bbox : bboxes) {
-                // Filter out flat boxes (ground plane artifacts, road markings)
-                if (bbox.size_z < min_bbox_height_) {
-                    continue;  // Too flat
-                }
+                if (bbox.size_z < min_bbox_height_) continue;
+                if (bbox.size_y > max_bbox_width_) continue;
+                if (bbox.size_x > max_bbox_length_) continue;
                 
-                // Filter out very wide boxes (likely noise or merged objects)
-                if (bbox.size_y > max_bbox_width_) {
-                    continue;  // Too wide
-                }
-                
-                // Filter out very long boxes (walls, barriers)
-                if (bbox.size_x > max_bbox_length_) {
-                    continue;  // Too long
-                }
-                
-                // Density filter (sparse objects like trees/bushes)
                 if (min_point_density_ > 0.0) {
                     float volume = bbox.size_x * bbox.size_y * bbox.size_z;
-                    if (volume > 0.01) {  // Avoid divide by zero
+                    if (volume > 0.01) {
                         float density = bbox.num_points / volume;
-                        if (density < min_point_density_) {
-                            continue;  // Too sparse (likely vegetation)
-                        }
+                        if (density < min_point_density_) continue;
                     }
                 }
                 
@@ -315,7 +290,6 @@ private:
             bboxes = filtered_bboxes;
         }
         
-        // Publish
         publishBoundingBoxes(bboxes, msg->header);
         
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -330,12 +304,12 @@ private:
     void publishBoundingBoxes(const std::vector<BoundingBox>& bboxes,
                               const std_msgs::msg::Header& header)
     {
+        // --- Marker Array (visualization) ---
         visualization_msgs::msg::MarkerArray marker_array;
         
         for (size_t i = 0; i < bboxes.size(); ++i) {
             const auto& bbox = bboxes[i];
             
-            // Cube marker
             visualization_msgs::msg::Marker marker;
             marker.header = header;
             marker.ns = "bounding_boxes";
@@ -356,12 +330,10 @@ private:
             marker.color.g = 1.0;
             marker.color.b = 0.0;
             marker.color.a = 0.5;
-            
             marker.lifetime = rclcpp::Duration::from_seconds(0.2);
             
             marker_array.markers.push_back(marker);
             
-            // Text marker
             visualization_msgs::msg::Marker text_marker;
             text_marker.header = header;
             text_marker.ns = "labels";
@@ -383,17 +355,53 @@ private:
             text_marker.text = "Pts:" + std::to_string(bbox.num_points) + "\n" +
                               "L:" + std::to_string(bbox.size_x).substr(0, 4) + 
                               " W:" + std::to_string(bbox.size_y).substr(0, 4);
-            
             text_marker.lifetime = rclcpp::Duration::from_seconds(0.2);
             
             marker_array.markers.push_back(text_marker);
         }
         
-        pub_->publish(marker_array);
+        pub_markers_->publish(marker_array);
+
+        // --- Detection3DArray (data for downstream tasks) ---
+        vision_msgs::msg::Detection3DArray detection_array;
+        detection_array.header = header;
+
+        for (size_t i = 0; i < bboxes.size(); ++i) {
+            const auto& bbox = bboxes[i];
+
+            vision_msgs::msg::Detection3D detection;
+            detection.header = header;
+
+            // Bounding box center
+            detection.bbox.center.position.x = bbox.center_x;
+            detection.bbox.center.position.y = bbox.center_y;
+            detection.bbox.center.position.z = bbox.center_z;
+            detection.bbox.center.orientation.w = 1.0;  // No rotation (axis-aligned)
+
+            // Bounding box dimensions
+            detection.bbox.size.x = bbox.size_x;
+            detection.bbox.size.y = bbox.size_y;
+            detection.bbox.size.z = bbox.size_z;
+
+            // Hypothesis (no classification — score set to 1.0 as "unknown object detected")
+            vision_msgs::msg::ObjectHypothesisWithPose hypothesis;
+            hypothesis.hypothesis.class_id = "unknown";
+            hypothesis.hypothesis.score = 1.0;
+            hypothesis.pose.pose.position.x = bbox.center_x;
+            hypothesis.pose.pose.position.y = bbox.center_y;
+            hypothesis.pose.pose.position.z = bbox.center_z;
+            hypothesis.pose.pose.orientation.w = 1.0;
+            detection.results.push_back(hypothesis);
+
+            detection_array.detections.push_back(detection);
+        }
+
+        pub_detections_->publish(detection_array);
     }
     
     rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_;
-    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr pub_;
+    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr pub_markers_;
+    rclcpp::Publisher<vision_msgs::msg::Detection3DArray>::SharedPtr pub_detections_;
     
     double eps_;
     int min_points_;
@@ -403,14 +411,12 @@ private:
     double max_z_;
     bool use_height_extrapolation_;
     
-    // ROI filtering
     double roi_min_x_;
     double roi_max_x_;
     double roi_min_y_;
     double roi_max_y_;
     bool use_roi_filter_;
     
-    // Shape filtering
     double min_bbox_height_;
     double max_bbox_width_;
     double max_bbox_length_;
